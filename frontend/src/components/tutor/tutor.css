@@ -1,0 +1,408 @@
+/* ===========================
+TUTOR PANEL
+=========================== */
+
+.tutor-panel{
+
+    margin-top:30px;
+
+    background:#ffffff;
+
+    border-radius:20px;
+
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+
+    overflow:hidden;
+
+}
+
+.tutor-top{
+
+    padding:25px 30px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    border-bottom:1px solid #ececec;
+
+}
+
+.tutor-top h2{
+
+    margin:0;
+
+}
+
+.tutor-top p{
+
+    color:#777;
+
+    margin-top:5px;
+
+}
+
+.quiz-btn{
+
+    background:#0A8D8E;
+
+    color:white;
+
+    border:none;
+
+    padding:12px 22px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.quiz-btn:hover{
+
+    background:#087476;
+
+}
+
+.tutor-start{
+
+    padding:60px;
+
+    text-align:center;
+
+}
+
+.tutor-start-icon{
+
+    width:90px;
+
+    height:90px;
+
+    margin:auto;
+
+    border-radius:50%;
+
+    background:#eef9fa;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:45px;
+
+    margin-bottom:25px;
+
+}
+
+.start-btn{
+
+    margin-top:30px;
+
+    padding:15px 30px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#0A8D8E;
+
+    color:white;
+
+    cursor:pointer;
+
+    font-size:16px;
+
+}
+
+.chat-container{
+
+    padding:30px;
+
+    height:500px;
+
+    overflow-y:auto;
+
+    background:#f8fafc;
+
+}
+
+.message-row{
+
+    display:flex;
+
+    gap:15px;
+
+    margin-bottom:20px;
+
+}
+
+.message-row.user{
+
+    justify-content:flex-end;
+
+}
+
+.avatar{
+
+    width:45px;
+
+    height:45px;
+
+    border-radius:50%;
+
+    background:#0A8D8E;
+
+    color:white;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:22px;
+
+    flex-shrink:0;
+
+}
+
+.message-box{
+
+    max-width:70%;
+
+    background:white;
+
+    padding:18px;
+
+    border-radius:18px;
+
+    box-shadow:0 3px 12px rgba(0,0,0,.06);
+
+}
+
+.message-row.user .message-box{
+
+    background:#0A8D8E;
+
+    color:white;
+
+}
+
+.sender{
+
+    font-weight:bold;
+
+    margin-bottom:8px;
+
+    opacity:.8;
+
+}
+
+.message{
+
+    line-height:1.8;
+
+    white-space:pre-wrap;
+
+}
+
+.chat-input-area{
+
+    display:flex;
+
+    gap:15px;
+
+    padding:25px;
+
+    border-top:1px solid #eee;
+
+    background:white;
+
+}
+
+.chat-input-area input{
+
+    flex:1;
+
+    padding:15px;
+
+    border-radius:12px;
+
+    border:1px solid #ddd;
+
+    outline:none;
+
+}
+
+.chat-input-area button{
+
+    padding:15px 28px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#0A8D8E;
+
+    color:white;
+
+    cursor:pointer;
+
+}
+
+.typing-box{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:6px;
+
+    background:white;
+
+    padding:18px;
+
+    border-radius:18px;
+
+}
+
+.typing-box span{
+
+    width:8px;
+
+    height:8px;
+
+    border-radius:50%;
+
+    background:#0A8D8E;
+
+    animation:typing 1s infinite;
+
+}
+
+.typing-box span:nth-child(2){
+
+    animation-delay:.2s;
+
+}
+
+.typing-box span:nth-child(3){
+
+    animation-delay:.4s;
+
+}
+
+@keyframes typing{
+
+0%{
+
+transform:translateY(0);
+
+opacity:.4;
+
+}
+
+50%{
+
+transform:translateY(-6px);
+
+opacity:1;
+
+}
+
+100%{
+
+transform:translateY(0);
+
+opacity:.4;
+
+}
+
+}
+.retry-container{
+    display:flex;
+    justify-content:center;
+    margin:20px 0;
+}
+
+.retry-btn{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+
+    padding:14px 28px;
+
+    border:none;
+    border-radius:12px;
+
+    background:linear-gradient(135deg,#0A8D8E,#11b5b7);
+
+    color:#fff;
+
+    font-size:16px;
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s ease;
+
+    box-shadow:0 10px 25px rgba(10,141,142,.25);
+}
+
+.retry-btn:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 15px 35px rgba(10,141,142,.35);
+
+    background:linear-gradient(135deg,#11b5b7,#0A8D8E);
+
+}
+
+.retry-btn:active{
+
+    transform:scale(.97);
+
+}
+
+.retry-btn:disabled{
+
+    opacity:.7;
+
+    cursor:not-allowed;
+
+    transform:none;
+
+}
+
+.retry-spinner{
+
+    width:18px;
+    height:18px;
+
+    border:3px solid rgba(255,255,255,.3);
+
+    border-top:3px solid #fff;
+
+    border-radius:50%;
+
+    animation:retrySpin .8s linear infinite;
+
+}
+
+@keyframes retrySpin{
+
+    to{
+
+        transform:rotate(360deg);
+
+    }
+
+}

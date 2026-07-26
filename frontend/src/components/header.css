@@ -1,0 +1,91 @@
+* {
+  user-select: none;
+  cursor: default;
+}
+.navbar {
+  margin: 20px;
+  border-radius: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 20px 30px !important;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  --bs-navbar-padding-x: none !important;
+  --bs-navbar-padding-y: none !important;
+}
+
+/* LOGO IMAGE */
+.logo img {
+  height: 40px;
+  cursor: pointer;
+}
+
+/* NAV LINKS */
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 28px;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
+
+.nav-links li {
+  cursor: pointer;
+  font-size: 15px;
+  color: #374151;
+  position: relative;
+  padding-bottom: 4px;
+  transition: color 0.2s ease;
+}
+
+/* Hover underline */
+.nav-links li::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0%;
+  height: 2px;
+  background: #2563eb;
+  transition: 0.25s ease;
+}
+
+.nav-links li:hover {
+  color: #2563eb;
+}
+
+.nav-links li:hover::after {
+  width: 100%;
+}
+
+/* ACTIVE LINK */
+.nav-links li.active {
+  color: #2563eb;
+  font-weight: 500;
+}
+
+.nav-links li.active::after {
+  width: 100%;
+}
+
+/* LOGOUT */
+.navbar .logout {
+  color: #2563eb;
+  font-weight: 500;
+}
+.navbar .logout:hover {
+  color: #ff0000;
+  font-weight: 500;
+}
+.navbar .logout::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0%;
+  height: 2px;
+  background: #ff0000;
+  transition: 0.25s ease;
+}

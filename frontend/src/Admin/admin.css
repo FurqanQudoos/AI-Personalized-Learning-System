@@ -1,0 +1,405 @@
+* {
+  user-select: none;
+  cursor: default;
+}
+.add-btn {
+  padding: 8px 15px;
+  background: #1e1b7a;
+  color: #fff;
+  border: 1px solid #1e1b7a;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.add-btn:hover{
+  background-color: #fff;
+  color: #1e1b7a;
+}
+.edit-btn {
+  margin-top: 0px !important;
+  margin-right: 5px;
+  background: orange;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.delete-btn {
+  background: red;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+
+.edit-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 9999;
+}
+
+.edit-modal {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 320px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.contact-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.contact-card {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.contact-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.message-box {
+  margin-top: 10px;
+  padding: 10px;
+  background: #f3f4f6;
+  border-radius: 5px;
+}
+.empty-state {
+  text-align: center;
+  padding: 40px;
+  background: white;
+  border-radius: 10px;
+  color: #6b7280;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.tab {
+  padding: 6px 14px;
+  border: none;
+  background: #e5e7eb;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.tab.active {
+  background: #2563eb;
+  color: white;
+}
+
+.status-active {
+  background: #16a34a;
+  color: white;
+  padding: 3px 8px;
+  border-radius: 5px;
+}
+
+.status-inactive {
+  background: #f59e0b;
+  color: white;
+  padding: 3px 8px;
+  border-radius: 5px;
+}
+
+.status-deleted {
+  background: #dc2626;
+  color: white;
+  padding: 3px 8px;
+  border-radius: 5px;
+}
+.status-select {
+  padding: 5px 10px;
+  border-radius: 6px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.status-active {
+  background: #22c55e;
+  color: white;
+}
+
+.status-inactive {
+  background: orange;
+  color: white;
+}
+
+.status-deleted {
+  background: red;
+  color: white;
+}
+
+.edit-overlay {
+  position: fixed;
+  inset: 0;
+
+  background: rgba(0,0,0,0.45);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 999;
+}
+
+.edit-modal {
+
+  width: 420px;
+
+  background: white;
+
+  border-radius: 18px;
+
+  padding: 30px;
+
+  box-shadow:
+    0 20px 40px rgba(0,0,0,0.15);
+
+  animation: modalPop 0.25s ease;
+}
+
+@keyframes modalPop {
+
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-header {
+  margin-bottom: 25px;
+}
+
+.modal-header h3 {
+
+  font-size: 32px;
+
+  font-weight: 700;
+
+  color: #111827;
+
+  margin-bottom: 5px;
+}
+
+.modal-header p {
+
+  color: #6b7280;
+
+  font-size: 14px;
+}
+
+.form-group {
+  width: 100%;
+  margin-bottom: 18px;
+}
+
+.form-group input,
+.form-group select {
+
+  width: 100%;
+
+  padding: 14px 16px;
+
+  border-radius: 12px;
+
+  border: 1px solid #d1d5db;
+
+  background: #f9fafb;
+
+  font-size: 15px;
+
+  outline: none;
+
+  transition: 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+
+  border-color: #2563eb;
+
+  background: white;
+
+  box-shadow:
+    0 0 0 4px rgba(37,99,235,0.12);
+}
+
+.modal-actions {
+
+  display: flex;
+
+  justify-content: flex-end;
+
+  gap: 12px;
+
+  margin-top: 25px;
+}
+
+.premium-btn {
+
+  background: #2563eb;
+
+  color: white;
+
+  border: none;
+
+  padding: 12px 20px;
+
+  border-radius: 10px;
+
+  font-size: 15px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.premium-btn:hover {
+
+  background: #1d4ed8;
+}
+
+.cancel-btn {
+
+  background: #f3f4f6;
+
+  color: #111827;
+
+  border: none;
+
+  padding: 12px 20px;
+
+  border-radius: 10px;
+
+  font-size: 15px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.cancel-btn:hover {
+
+  background: #e5e7eb;
+}
+.filter-select {
+
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  padding: 12px 45px 12px 18px;
+
+  border-radius: 14px;
+
+  border: 1px solid #dbeafe;
+
+  background: white;
+
+  color: #1e293b;
+
+  font-size: 15px;
+
+  font-weight: 500;
+
+  outline: none;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+
+  min-width: 130px;
+
+  box-shadow:
+    0 2px 8px rgba(0,0,0,0.04);
+
+  background-image:
+    url("data:image/svg+xml;utf8,<svg fill='%231e293b' height='20' viewBox='0 0 20 20' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M5.5 7.5L10 12l4.5-4.5'/></svg>");
+
+  background-repeat: no-repeat;
+
+  background-position: right 14px center;
+}
+
+.filter-select:focus {
+
+  border-color: #2563eb;
+
+  box-shadow:
+    0 0 0 4px rgba(37,99,235,0.12);
+}
+
+.filter-select:hover {
+
+  border-color: #93c5fd;
+}
+.status-badge {
+
+  padding: 8px 16px;
+
+  border-radius: 10px;
+
+  color: white;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  text-transform: capitalize;
+
+  display: inline-block;
+
+  min-width: 90px;
+
+  text-align: center;
+}
+
+.status-active {
+
+  background: #22c55e;
+}
+
+.status-inactive {
+
+  background: #f59e0b;
+}
+
+.status-deleted {
+
+  background: #ef4444;
+}
