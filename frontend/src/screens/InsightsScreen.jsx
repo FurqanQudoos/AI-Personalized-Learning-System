@@ -102,7 +102,7 @@ const InsightsScreen = () => {
       );
 
       const res = await fetch(
-    `${API_URL}/api/ai/insights`,
+    `${API_URL}/api/insights`,
         {
           headers: {
             Authorization: `Bearer ${userInfo.token}`

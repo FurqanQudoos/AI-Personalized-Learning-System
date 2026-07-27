@@ -138,7 +138,7 @@ const UploadSection = ({ onAnalysisComplete }) => {
 
       const response = await axios.post(
 
-        `${API_URL}/api/ai/analyze`,
+        `${API_URL}/api/analyze`,
 
         formData,
 

@@ -37,12 +37,12 @@ app.use(
     saveUninitialized: true,
   })
 );
-app.use("/api/ai/insights", insightsRoutes);
+app.use("/api/insights", insightsRoutes);
 
 app.use(passport.initialize());
 app.use(passport.session());
 app.use("/api/admin", adminRoutes);
-app.use("/api/ai", aiRoutes);
+app.use("/api", aiRoutes);
 /* =========================
    DATABASE CONNECTION
 ========================= */

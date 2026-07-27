@@ -159,7 +159,7 @@ const TutorPanel = ({
             const token = userInfo?.token;
 
             const response = await axios.post(
-                `${API_URL}/api/ai/teach`,
+                `${API_URL}/api/teach`,
                 {
                     weak_topics: analysis.weak_topics
                 },
@@ -443,7 +443,7 @@ const TutorPanel = ({
             const token = userInfo?.token;
 
             const response = await axios.post(
-                `${API_URL}/api/ai/chat`,
+                `${API_URL}/api/chat`,
                 {
                     weak_topics: analysis.weak_topics,
                     student_message: studentMessage

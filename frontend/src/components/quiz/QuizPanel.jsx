@@ -76,7 +76,7 @@ const QuizPanel = ({
             const token = userInfo?.token;
 
             const res = await axios.post(
-                `${API_URL}/api/ai/quiz`,
+                `${API_URL}/api/quiz`,
                 {
                     weak_topics: analysis.weak_topics
                 },
@@ -244,7 +244,7 @@ const QuizPanel = ({
                 return answers[index] || "";
             });
             const res = await axios.post(
-                `${API_URL}/api/ai/submit-quiz`,
+                `${API_URL}/api/submit-quiz`,
                 {
                     quiz_id: savedQuizId,
                     answers: answersArray
