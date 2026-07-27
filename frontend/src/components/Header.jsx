@@ -1,6 +1,6 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import logo from "../assets/logo.png";
-import "./Header.css";
+import "./header.css";
 
 const Header = ({ userInfo, onLogout }) => {
   const navigate = useNavigate();
