@@ -16,8 +16,11 @@ import {
 
 const QuizPanel = ({
     analysis,
+    intent = "generate",
     onQuizCompleted,
     onBackToSummary,
+    onBackToTutor,
+    onGenerateNewQuiz,
 }) => {
 
 
@@ -37,9 +40,13 @@ const QuizPanel = ({
 
     const savedResult = getQuizResult();
 
-    const [submitted, setSubmitted] = useState(() => hasAttemptedQuiz());
+    const [submitted, setSubmitted] = useState(
+        () => intent === "view" && hasAttemptedQuiz()
+    );
 
-    const [result, setResult] = useState(() => savedResult);
+    const [result, setResult] = useState(() =>
+        intent === "view" ? savedResult : null
+    );
 
     const [timeLeft, setTimeLeft] = useState(900);
     const [quizId, setQuizId] = useState("");
@@ -125,14 +132,17 @@ const QuizPanel = ({
 
     };
     useEffect(() => {
-        // Already attempted → show saved result, never generate again
-        const existingResult = getQuizResult();
-        if (existingResult) {
-            setResult(existingResult);
-            setSubmitted(true);
+        // View previous result only — do not generate
+        if (intent === "view") {
+            const existingResult = getQuizResult();
+            if (existingResult) {
+                setResult(existingResult);
+                setSubmitted(true);
+            }
             return;
         }
 
+        // Generate new quiz path
         const savedQuestions = sessionStorage.getItem("quizQuestions");
         const savedQuizId = sessionStorage.getItem("quizId");
 
@@ -140,15 +150,19 @@ const QuizPanel = ({
         if (savedQuestions && savedQuizId) {
             setQuestions(JSON.parse(savedQuestions));
             setQuizId(savedQuizId);
+            setSubmitted(false);
+            setResult(null);
             return;
         }
 
-        // First time user clicked Generate Quiz → create quiz now
+        // User clicked Generate Quiz → create a new quiz now
         if (analysis && weakTopics.length) {
+            setSubmitted(false);
+            setResult(null);
             loadQuiz();
         }
 
-    }, [analysis]);
+    }, [analysis, intent]);
 
     useEffect(() => {
 
@@ -334,6 +348,8 @@ const QuizPanel = ({
             <QuizResult
                 result={result}
                 onBackToSummary={onBackToSummary}
+                onBackToTutor={onBackToTutor}
+                onGenerateNewQuiz={onGenerateNewQuiz}
             />
 
         );

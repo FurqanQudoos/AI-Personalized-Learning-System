@@ -14,6 +14,8 @@ const TutorPanel = ({
 
     onStartQuiz,
 
+    onViewQuizResult,
+
     quizAttempted = false,
 
     onBackToSummary,
@@ -569,16 +571,26 @@ const TutorPanel = ({
                         </button>
                     )}
 
+                    {quizAttempted && onViewQuizResult && (
+                        <button
+                            type="button"
+                            className="quiz-btn secondary-btn"
+                            onClick={onViewQuizResult}
+                        >
+                            View Quiz Result
+                        </button>
+                    )}
+
                     <button
+                        type="button"
                         className="quiz-btn"
-                        disabled={!quizAttempted && !messages.length}
                         onClick={() => {
-                            if (quizAttempted || messages.length) {
+                            if (onStartQuiz) {
                                 onStartQuiz();
                             }
                         }}
                     >
-                        {quizAttempted ? "View Quiz Result" : "Generate Quiz"}
+                        Generate Quiz
                     </button>
                 </div>
             </div>
