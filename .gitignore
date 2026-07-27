@@ -20,6 +20,9 @@ OAuth google.txt
 
 # Uploaded files
 backend/uploads/
+!backend/uploads/profile/
+backend/uploads/profile/*
+!backend/uploads/profile/default.png
 backend/python_ai/uploads/
 backend/python_ai/uploaded_exams/
 

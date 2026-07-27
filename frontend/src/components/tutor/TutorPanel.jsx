@@ -1,5 +1,6 @@
 import React, {
     useEffect,
+    useMemo,
     useRef,
     useState
 } from "react";
@@ -7,6 +8,25 @@ import { API_URL } from "../../config";
 
 import axios from "axios";
 import "./tutor.css";
+
+const getUserAvatarUrl = () => {
+    try {
+        const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
+        const image = userInfo?.profileImage;
+
+        if (!image) {
+            return `${API_URL}/uploads/profile/default.png`;
+        }
+
+        if (image.startsWith("http")) {
+            return image;
+        }
+
+        return `${API_URL}${image}`;
+    } catch {
+        return `${API_URL}/uploads/profile/default.png`;
+    }
+};
 
 const TutorPanel = ({
 
@@ -44,6 +64,8 @@ const TutorPanel = ({
     });
 
     const bottomRef = useRef(null);
+
+    const userAvatar = useMemo(() => getUserAvatarUrl(), []);
 
     //   const questions = analysis?.data || [];
     // const weakTopics = Object.keys(
@@ -711,10 +733,15 @@ const TutorPanel = ({
 
                                                 &&
 
-                                                <div className="avatar">
-
-                                                    🙂
-
+                                                <div className="avatar user-avatar">
+                                                    <img
+                                                        src={userAvatar}
+                                                        alt="You"
+                                                        onError={(e) => {
+                                                            e.currentTarget.onerror = null;
+                                                            e.currentTarget.src = `${API_URL}/uploads/profile/default.png`;
+                                                        }}
+                                                    />
                                                 </div>
 
                                             }
