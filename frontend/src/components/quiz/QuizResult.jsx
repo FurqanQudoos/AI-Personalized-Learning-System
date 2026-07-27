@@ -1,7 +1,8 @@
 import React from "react";
 import "./quiz.css";
-const QuizResult = ({ result }) => {
+import { clearQuizSession } from "./quizSession";
 
+const QuizResult = ({ result }) => {
     if (!result) return null;
 
     // const {
@@ -233,7 +234,10 @@ const QuizResult = ({ result }) => {
 
                 <button
 
-                    onClick={() => window.location.reload()}
+                    onClick={() => {
+                        clearQuizSession();
+                        window.location.reload();
+                    }}
 
                 >
 

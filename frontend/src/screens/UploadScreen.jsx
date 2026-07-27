@@ -6,6 +6,7 @@ import WeakTopics from "../components/upload/WeakTopics";
 import Recommendation from "../components/upload/Recommendation";
 import TutorPanel from "../components/tutor/TutorPanel";
 import QuizPanel from "../components/quiz/QuizPanel";
+import { clearQuizSession } from "../components/quiz/quizSession";
 
 const UploadScreen = () => {
   
@@ -33,6 +34,8 @@ const UploadScreen = () => {
     return sessionStorage.getItem("quizMode") === "true";
 
   });
+
+  const [quizKey, setQuizKey] = useState(0);
   useEffect(() => {
 
   if (analysis) {
@@ -56,6 +59,8 @@ const UploadScreen = () => {
     setLearningMode(false);
 
     setQuizMode(false);
+    clearQuizSession();
+    setQuizKey((key) => key + 1);
 
     sessionStorage.setItem(
       "analysis",
@@ -124,13 +129,13 @@ const UploadScreen = () => {
 
           onStartQuiz={() => {
 
+          clearQuizSession();
+          setQuizKey((key) => key + 1);
           setQuizMode(true);
+          setLearningMode(false);
 
-          sessionStorage.setItem(
-              "quizMode",
-              "true"
-          );
-
+          sessionStorage.setItem("quizMode", "true");
+          sessionStorage.setItem("learningMode", "false");
           window.scrollTo(0, 0);
 
           }}
@@ -144,6 +149,7 @@ const UploadScreen = () => {
         quizMode &&
 
         <QuizPanel
+          key={quizKey}
           analysis={analysis}
         />
 
