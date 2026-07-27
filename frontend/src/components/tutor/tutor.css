@@ -68,6 +68,45 @@ TUTOR PANEL
 
 }
 
+.tutor-top-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.quiz-btn.secondary-btn {
+    background: #e5e7eb;
+    color: #1f2937;
+}
+
+.quiz-btn.secondary-btn:hover {
+    background: #d1d5db;
+}
+
+.quiz-attempted-banner {
+    margin-top: 20px;
+    padding: 18px 20px;
+    border-radius: 14px;
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.quiz-attempted-banner p {
+    margin: 0;
+    color: #1e3a8a;
+    font-weight: 500;
+}
+
+.quiz-attempted-banner .quiz-btn {
+    margin: 0;
+}
+
 .tutor-start{
 
     padding:60px;
@@ -413,6 +452,11 @@ opacity:.4;
     align-items: flex-start;
     gap: 14px;
     padding: 18px;
+  }
+
+  .tutor-top-actions {
+    width: 100%;
+    flex-direction: column;
   }
 
   .quiz-btn {

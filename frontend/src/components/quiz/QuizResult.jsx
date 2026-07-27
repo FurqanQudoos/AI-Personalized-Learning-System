@@ -1,8 +1,7 @@
 import React from "react";
 import "./quiz.css";
-import { clearQuizSession } from "./quizSession";
 
-const QuizResult = ({ result }) => {
+const QuizResult = ({ result, onBackToSummary }) => {
     if (!result) return null;
 
     // const {
@@ -233,15 +232,15 @@ const QuizResult = ({ result }) => {
             <div className="result-actions">
 
                 <button
-
+                    type="button"
                     onClick={() => {
-                        clearQuizSession();
-                        window.location.reload();
+                        if (onBackToSummary) {
+                            onBackToSummary();
+                        }
                     }}
-
                 >
 
-                    Retry Quiz
+                    Back to Analysis
 
                 </button>
 

@@ -886,6 +886,35 @@ body {
   padding: 30px 40px;
 }
 
+.quiz-attempted-banner {
+  margin-top: 20px;
+  padding: 18px 20px;
+  border-radius: 14px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.quiz-attempted-banner p {
+  margin: 0;
+  color: #1e3a8a;
+  font-weight: 500;
+}
+
+.quiz-attempted-banner .quiz-btn {
+  margin: 0;
+  background: #0A8D8E;
+  color: white;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
 .upload-container {
   display: flex;
   gap: 30px;

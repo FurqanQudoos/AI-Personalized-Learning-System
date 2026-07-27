@@ -62,6 +62,8 @@ function App() {
     sessionStorage.removeItem("quizQuestions");
     sessionStorage.removeItem("quizAnswers");
     sessionStorage.removeItem("quizId");
+    sessionStorage.removeItem("quizResult");
+    sessionStorage.removeItem("quizAttempted");
     sessionStorage.removeItem("uploadedImage");
     sessionStorage.removeItem("quiz");
 

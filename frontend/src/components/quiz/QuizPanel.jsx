@@ -8,13 +8,16 @@ import QuizResult from "./QuizResult";
 import "./quiz.css";
 
 import axios from "axios";
-import { clearQuizSession } from "./quizSession";
+import {
+    getQuizResult,
+    hasAttemptedQuiz,
+    saveQuizResult,
+} from "./quizSession";
 
 const QuizPanel = ({
     analysis,
-
-    onQuizCompleted
-
+    onQuizCompleted,
+    onBackToSummary,
 }) => {
 
 
@@ -32,9 +35,11 @@ const QuizPanel = ({
 
     });
 
-    const [submitted, setSubmitted] = useState(false);
+    const savedResult = getQuizResult();
 
-    const [result, setResult] = useState(null);
+    const [submitted, setSubmitted] = useState(() => hasAttemptedQuiz());
+
+    const [result, setResult] = useState(() => savedResult);
 
     const [timeLeft, setTimeLeft] = useState(900);
     const [quizId, setQuizId] = useState("");
@@ -120,16 +125,25 @@ const QuizPanel = ({
 
     };
     useEffect(() => {
+        // Already attempted → show saved result, never generate again
+        const existingResult = getQuizResult();
+        if (existingResult) {
+            setResult(existingResult);
+            setSubmitted(true);
+            return;
+        }
 
         const savedQuestions = sessionStorage.getItem("quizQuestions");
         const savedQuizId = sessionStorage.getItem("quizId");
 
+        // In-progress quiz (not submitted yet) → restore
         if (savedQuestions && savedQuizId) {
             setQuestions(JSON.parse(savedQuestions));
             setQuizId(savedQuizId);
             return;
         }
 
+        // First time user clicked Generate Quiz → create quiz now
         if (analysis && weakTopics.length) {
             loadQuiz();
         }
@@ -256,13 +270,11 @@ const QuizPanel = ({
             setResult(res.data);
             setSubmitted(true);
 
-            // Quiz is deleted on the server after submit — clear stale session
-            clearQuizSession();
+            // Persist attempt so Generate Quiz won't create another quiz
+            saveQuizResult(res.data);
 
             if (onQuizCompleted) {
-
                 onQuizCompleted(res.data);
-
             }
 
         }
@@ -320,9 +332,8 @@ const QuizPanel = ({
         return (
 
             <QuizResult
-
                 result={result}
-
+                onBackToSummary={onBackToSummary}
             />
 
         );
