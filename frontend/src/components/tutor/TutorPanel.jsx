@@ -12,11 +12,13 @@ const TutorPanel = ({
 
     analysis,
 
-    onStartQuiz
+    onStartQuiz,
+
+    quizAttempted = false,
+
+    onBackToSummary,
 
 }) => {
-    
-
     const [started, setStarted] = useState(() => {
 
         const saved = sessionStorage.getItem("teachChat");
@@ -556,27 +558,29 @@ const TutorPanel = ({
 
                 </div>
 
-                <button
+                <div className="tutor-top-actions">
+                    {onBackToSummary && (
+                        <button
+                            type="button"
+                            className="quiz-btn secondary-btn"
+                            onClick={onBackToSummary}
+                        >
+                            Back to Analysis
+                        </button>
+                    )}
 
-                    className="quiz-btn"
-
-                    disabled={!messages.length}
-
-                    onClick={() => {
-
-                        if (messages.length) {
-
-                            onStartQuiz();
-
-                        }
-
-                    }}
-                >
-
-                    Generate Quiz
-
-                </button>
-
+                    <button
+                        className="quiz-btn"
+                        disabled={!quizAttempted && !messages.length}
+                        onClick={() => {
+                            if (quizAttempted || messages.length) {
+                                onStartQuiz();
+                            }
+                        }}
+                    >
+                        {quizAttempted ? "View Quiz Result" : "Generate Quiz"}
+                    </button>
+                </div>
             </div>
 
             {
