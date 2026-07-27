@@ -25,6 +25,11 @@ const UploadScreen = () => {
     return sessionStorage.getItem("quizMode") === "true";
   });
 
+  // "view" = show saved result | "generate" = create a new quiz
+  const [quizIntent, setQuizIntent] = useState(() => {
+    return sessionStorage.getItem("quizIntent") || "generate";
+  });
+
   const [quizKey, setQuizKey] = useState(0);
   const [quizAttempted, setQuizAttempted] = useState(() => hasAttemptedQuiz());
 
@@ -37,10 +42,11 @@ const UploadScreen = () => {
   }, [analysis]);
 
   const handleAnalysisComplete = (data) => {
-    // New analysis = fresh learning path; clear any previous quiz attempt
     clearQuizSession();
     sessionStorage.removeItem("teachChat");
+    sessionStorage.removeItem("quizIntent");
     setQuizAttempted(false);
+    setQuizIntent("generate");
     setQuizKey((key) => key + 1);
 
     setAnalysis(data);
@@ -60,14 +66,36 @@ const UploadScreen = () => {
     window.scrollTo(0, 0);
   };
 
-  const openQuiz = () => {
-    // If already attempted: show saved result only (do not generate a new quiz)
-    // If not attempted: QuizPanel will generate when user opened this via Generate Quiz
+  const viewQuizResult = () => {
+    setQuizIntent("view");
+    sessionStorage.setItem("quizIntent", "view");
     setQuizMode(true);
     setLearningMode(false);
     setQuizKey((key) => key + 1);
     sessionStorage.setItem("quizMode", "true");
     sessionStorage.setItem("learningMode", "false");
+    window.scrollTo(0, 0);
+  };
+
+  const generateNewQuiz = () => {
+    // Clear previous attempt so a brand-new quiz is created
+    clearQuizSession();
+    setQuizAttempted(false);
+    setQuizIntent("generate");
+    sessionStorage.setItem("quizIntent", "generate");
+    setQuizMode(true);
+    setLearningMode(false);
+    setQuizKey((key) => key + 1);
+    sessionStorage.setItem("quizMode", "true");
+    sessionStorage.setItem("learningMode", "false");
+    window.scrollTo(0, 0);
+  };
+
+  const backToTutor = () => {
+    setQuizMode(false);
+    setLearningMode(true);
+    sessionStorage.setItem("quizMode", "false");
+    sessionStorage.setItem("learningMode", "true");
     window.scrollTo(0, 0);
   };
 
@@ -81,12 +109,10 @@ const UploadScreen = () => {
 
   return (
     <div className="upload-page">
-      {/* Keep upload visible until tutor/quiz starts */}
       {!learningMode && !quizMode && (
         <UploadSection onAnalysisComplete={handleAnalysisComplete} />
       )}
 
-      {/* After analyze: summary + start tutor (only if not in tutor/quiz) */}
       {analysis && !learningMode && !quizMode && (
         <>
           <SummaryCards analysis={analysis} />
@@ -96,9 +122,22 @@ const UploadScreen = () => {
           {quizAttempted && (
             <div className="quiz-attempted-banner">
               <p>You already completed a practice quiz for this analysis.</p>
-              <button type="button" className="quiz-btn" onClick={openQuiz}>
-                View Quiz Result
-              </button>
+              <div className="quiz-attempted-actions">
+                <button
+                  type="button"
+                  className="quiz-btn secondary-banner-btn"
+                  onClick={viewQuizResult}
+                >
+                  View Quiz Result
+                </button>
+                <button
+                  type="button"
+                  className="quiz-btn"
+                  onClick={generateNewQuiz}
+                >
+                  Generate New Quiz
+                </button>
+              </div>
             </div>
           )}
         </>
@@ -108,17 +147,21 @@ const UploadScreen = () => {
         <TutorPanel
           analysis={analysis}
           quizAttempted={quizAttempted}
-          onStartQuiz={openQuiz}
+          onStartQuiz={generateNewQuiz}
+          onViewQuizResult={viewQuizResult}
           onBackToSummary={backToSummary}
         />
       )}
 
       {quizMode && (
         <QuizPanel
-          key={quizKey}
+          key={`${quizKey}-${quizIntent}`}
           analysis={analysis}
+          intent={quizIntent}
           onQuizCompleted={() => setQuizAttempted(true)}
           onBackToSummary={backToSummary}
+          onBackToTutor={backToTutor}
+          onGenerateNewQuiz={generateNewQuiz}
         />
       )}
     </div>

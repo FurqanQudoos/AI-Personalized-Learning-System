@@ -1,7 +1,12 @@
 import React from "react";
 import "./quiz.css";
 
-const QuizResult = ({ result, onBackToSummary }) => {
+const QuizResult = ({
+    result,
+    onBackToSummary,
+    onBackToTutor,
+    onGenerateNewQuiz,
+}) => {
     if (!result) return null;
 
     // const {
@@ -230,20 +235,23 @@ const QuizResult = ({ result, onBackToSummary }) => {
             </div>
 
             <div className="result-actions">
+                {onBackToTutor && (
+                    <button type="button" className="previous-btn" onClick={onBackToTutor}>
+                        Back to Tutor
+                    </button>
+                )}
 
-                <button
-                    type="button"
-                    onClick={() => {
-                        if (onBackToSummary) {
-                            onBackToSummary();
-                        }
-                    }}
-                >
+                {onBackToSummary && (
+                    <button type="button" className="previous-btn" onClick={onBackToSummary}>
+                        Back to Analysis
+                    </button>
+                )}
 
-                    Back to Analysis
-
-                </button>
-
+                {onGenerateNewQuiz && (
+                    <button type="button" onClick={onGenerateNewQuiz}>
+                        Generate New Quiz
+                    </button>
+                )}
             </div>
 
         </div>
