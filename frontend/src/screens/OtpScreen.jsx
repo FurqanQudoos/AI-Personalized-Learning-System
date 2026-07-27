@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "../App.css";
+import { API_URL } from "../config";
 
 const OtpScreen = () => {
   const navigate = useNavigate();
@@ -55,7 +56,7 @@ const OtpScreen = () => {
         return;
       }
 
-      const res = await fetch("http://localhost:5000/api/users/verify-otp", {
+      const res = await fetch(`${API_URL}/api/users/verify-otp`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -86,7 +87,7 @@ const OtpScreen = () => {
     try {
       setTimer(60);
 
-      await fetch("http://localhost:5000/api/users/register", {
+      await fetch(`${API_URL}/api/users/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

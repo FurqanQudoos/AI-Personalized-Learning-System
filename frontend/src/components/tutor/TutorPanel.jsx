@@ -3,6 +3,7 @@ import React, {
     useRef,
     useState
 } from "react";
+import { API_URL } from "../../config";
 
 import axios from "axios";
 import "./tutor.css";
@@ -86,7 +87,7 @@ const TutorPanel = ({
 
     //         const response = await axios.post(
 
-    //             "http://localhost:5000/api/ai/teach",
+    //             `${API_URL}/api/ai/teach`,
 
     //             {
 
@@ -144,7 +145,7 @@ const TutorPanel = ({
 
             // const response = await axios.post(
 
-            //     "http://localhost:5000/api/ai/teach",
+            //     `${API_URL}/api/ai/teach`,
 
             //     {
 
@@ -158,7 +159,7 @@ const TutorPanel = ({
             const token = userInfo?.token;
 
             const response = await axios.post(
-                "http://localhost:5000/api/ai/teach",
+                `${API_URL}/api/ai/teach`,
                 {
                     weak_topics: analysis.weak_topics
                 },
@@ -306,7 +307,7 @@ const TutorPanel = ({
 
     //         const response = await axios.post(
 
-    //             "http://localhost:5000/api/ai/chat",
+    //             `${API_URL}/api/ai/chat`,
 
     //             {
 
@@ -427,7 +428,7 @@ const TutorPanel = ({
 
             // const response = await axios.post(
 
-            //     "http://localhost:5000/api/ai/chat",
+            //     `${API_URL}/api/ai/chat`,
 
             //     {
 
@@ -442,7 +443,7 @@ const TutorPanel = ({
             const token = userInfo?.token;
 
             const response = await axios.post(
-                "http://localhost:5000/api/ai/chat",
+                `${API_URL}/api/ai/chat`,
                 {
                     weak_topics: analysis.weak_topics,
                     student_message: studentMessage

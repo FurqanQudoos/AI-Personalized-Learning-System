@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../App.css";
 import brain from "../assets/brain.png";
 import map from "../assets/map.png";
+import { API_URL } from "../config";
 
 const ContactScreen = () => {
   const [name, setName] = useState("");
@@ -23,7 +24,7 @@ const ContactScreen = () => {
       setError("");
       setSuccess("");
 
-      const res = await fetch("http://localhost:5000/api/contact", {
+      const res = await fetch(`${API_URL}/api/contact`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -76,6 +76,7 @@
 // export default InsightsScreen;
 
 import React, { useEffect, useState } from "react";
+import { API_URL } from "../config";
 import "../App.css";
 
 const InsightsScreen = () => {
@@ -101,7 +102,7 @@ const InsightsScreen = () => {
       );
 
       const res = await fetch(
-    "http://localhost:5000/api/ai/insights",
+    `${API_URL}/api/ai/insights`,
         {
           headers: {
             Authorization: `Bearer ${userInfo.token}`

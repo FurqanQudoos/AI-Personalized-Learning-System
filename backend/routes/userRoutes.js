@@ -48,8 +48,9 @@ router.get(
   (req, res) => {
     const { user, token } = req.user;
 
+    const frontendUrl = process.env.FRONTEND_URL || "http://localhost:5173";
     res.redirect(
-      `http://localhost:5173/google-success?token=${token}&name=${user.name}&email=${user.email}&image=${user.profileImage}`
+      `${frontendUrl}/google-success?token=${token}&name=${user.name}&email=${user.email}&image=${user.profileImage}`
     );
   }
 );

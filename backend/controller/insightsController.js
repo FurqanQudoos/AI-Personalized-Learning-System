@@ -182,9 +182,12 @@ exports.getInsights = async (req, res) => {
 
         try {
 
+            const pythonApi =
+                process.env.PYTHON_API_URL || "http://127.0.0.1:8000";
+
             const aiResponse = await axios.post(
 
-                "http://127.0.0.1:8000/insights",
+                `${pythonApi}/insights`,
 
                 {
                     totalQuizzes,

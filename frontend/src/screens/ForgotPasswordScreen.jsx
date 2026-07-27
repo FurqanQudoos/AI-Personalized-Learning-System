@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../App.css";
+import { API_URL } from "../config";
 
 const ForgotPasswordScreen = () => {
   const [email, setEmail] = useState("");
@@ -14,7 +15,7 @@ const ForgotPasswordScreen = () => {
     setMessage("");
 
     try {
-      const res = await fetch("http://localhost:5000/api/users/forgot-password", {
+      const res = await fetch(`${API_URL}/api/users/forgot-password`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

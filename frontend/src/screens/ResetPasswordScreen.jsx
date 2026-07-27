@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "../App.css";
+import { API_URL } from "../config";
 
 const ResetPasswordScreen = () => {
   const { token } = useParams();
@@ -25,7 +26,7 @@ const ResetPasswordScreen = () => {
       setLoading(true);
 
       const res = await fetch(
-        `http://localhost:5000/api/users/reset-password/${token}`,
+        `${API_URL}/api/users/reset-password/${token}`,
         {
           method: "PUT",
           headers: {

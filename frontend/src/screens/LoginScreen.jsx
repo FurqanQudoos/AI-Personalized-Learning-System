@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { Eye, EyeOff } from 'lucide-react';
 import robotImage from "../assets/robot.png";
 import "../App.css";
+import { API_URL } from "../config";
 
 const Login = ({ onLogin }) => {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ const Login = ({ onLogin }) => {
     setError(null);
 
     try {
-      const res = await fetch("http://localhost:5000/api/users/login", {
+      const res = await fetch(`${API_URL}/api/users/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -62,7 +63,7 @@ const Login = ({ onLogin }) => {
           <button
             className="google-btn"
             onClick={() =>
-              (window.location.href = "http://localhost:5000/api/users/google")
+              (window.location.href = `${API_URL}/api/users/google`)
             }
           >
             {/* Google SVG */}

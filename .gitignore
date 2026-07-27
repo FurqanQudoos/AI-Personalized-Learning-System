@@ -12,6 +12,7 @@ venv/
 .env
 backend/.env
 backend/python_ai/.env
+frontend/.env
 
 # Secrets
 password.txt

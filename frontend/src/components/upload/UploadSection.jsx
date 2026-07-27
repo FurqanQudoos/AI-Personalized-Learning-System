@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { API_URL } from "../../config";
 
 const progressMessages = [
   "📄 Uploading your paper...",
@@ -137,7 +138,7 @@ const UploadSection = ({ onAnalysisComplete }) => {
 
       const response = await axios.post(
 
-        "http://localhost:5000/api/ai/analyze",
+        `${API_URL}/api/ai/analyze`,
 
         formData,
 

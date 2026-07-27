@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "../App.css";
+import { API_URL } from "../config";
 
 const HomeScreen = () => {
   const [learningProgress] = useState([
@@ -51,7 +52,7 @@ const HomeScreen = () => {
       if (image) formData.append("profileImage", image);
 
       const res = await fetch(
-        "http://localhost:5000/api/users/update-profile",
+        `${API_URL}/api/users/update-profile`,
         {
           method: "PUT",
           headers: {
@@ -89,7 +90,7 @@ const HomeScreen = () => {
             src={
               user?.profileImage?.startsWith("http")
                 ? user.profileImage
-                : `http://localhost:5000${user?.profileImage || "/uploads/profile/default.png"}`
+                : `${API_URL}${user?.profileImage || "/uploads/profile/default.png"}`
             }
             alt="profile"
             className="profile-img"
@@ -155,7 +156,7 @@ const HomeScreen = () => {
                 src={
                   preview
                     ? preview
-                    : `http://localhost:5000${user?.profileImage}`
+                    : `${API_URL}${user?.profileImage}`
                 }
                 alt="profile"
               />

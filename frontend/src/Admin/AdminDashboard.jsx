@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { API_URL } from "../config";
 
 const AdminDashboard = () => {
   const [stats, setStats] = useState({
@@ -19,7 +20,7 @@ const AdminDashboard = () => {
       return;
     }
 
-    const res = await fetch("http://localhost:5000/api/admin/stats", {
+    const res = await fetch(`${API_URL}/api/admin/stats`, {
       headers: {
         Authorization: `Bearer ${adminInfo.token}`,
       },

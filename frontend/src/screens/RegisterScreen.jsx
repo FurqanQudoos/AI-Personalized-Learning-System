@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import defaultUser from "../assets/user.png";
 import "../App.css";
+import { API_URL } from "../config";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -94,7 +95,7 @@ const Register = () => {
     if (image) formData.append("profileImage", image);
 
     try {
-      const res = await fetch("http://localhost:5000/api/users/register", {
+      const res = await fetch(`${API_URL}/api/users/register`, {
         method: "POST",
         body: formData,
       });

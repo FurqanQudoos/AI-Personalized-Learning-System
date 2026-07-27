@@ -2,8 +2,11 @@
 from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from dotenv import load_dotenv
 import shutil
 import os
+
+load_dotenv()
 
 from master_pipeline import (
     process_exam_image,
@@ -17,11 +20,20 @@ from master_pipeline import (
 app = FastAPI()
 
 # ==============================
-# CORS
+# CORS (from .env CORS_ORIGINS)
 # ==============================
+cors_origins = [
+    origin.strip()
+    for origin in os.getenv(
+        "CORS_ORIGINS",
+        "http://localhost:5173,http://localhost:5000"
+    ).split(",")
+    if origin.strip()
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=cors_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
