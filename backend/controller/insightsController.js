@@ -11,9 +11,7 @@ exports.getInsights = async (req, res) => {
         if (results.length === 0) {
 
             return res.json({
-
                 success: true,
-
                 performance: {
                     level: "No Data",
                     averageScore: 0,
