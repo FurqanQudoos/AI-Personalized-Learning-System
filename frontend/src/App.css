@@ -2107,3 +2107,231 @@ opacity:.4;
     padding: 30px;
   }
 }
+
+/* ===========================
+   MOBILE / TABLET RESPONSIVE
+=========================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
+  height: auto;
+}
+
+.app-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-main {
+  flex: 1;
+  width: 100%;
+  padding: 0 12px 24px;
+}
+
+@media (max-width: 1024px) {
+  .user-main-content {
+    flex-wrap: wrap;
+    margin: 20px 12px;
+  }
+
+  .mission-box,
+  .team-section,
+  .bottom-section,
+  .contact-section {
+    flex-wrap: wrap;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .upload-page {
+    padding: 20px 16px;
+  }
+
+  .upload-card,
+  .contact-card,
+  .info-card {
+    width: 100%;
+    max-width: 520px;
+  }
+}
+
+@media (max-width: 768px) {
+  .login-wrapper {
+    padding: 16px;
+    min-height: 100dvh;
+  }
+
+  .login-card {
+    width: 100%;
+    max-width: 100%;
+    flex-direction: column;
+    padding: 24px 18px;
+    gap: 16px;
+  }
+
+  .login-title {
+    font-size: 1.6rem;
+  }
+
+  .login-right {
+    order: -1;
+  }
+
+  .robot-img {
+    width: 120px;
+    margin-top: 0;
+  }
+
+  .register-card {
+    width: 100%;
+    max-width: 420px;
+    padding: 24px 18px;
+  }
+
+  .user-main-content {
+    flex-direction: column;
+    margin: 12px 0;
+    gap: 16px;
+  }
+
+  .profile-card,
+  .progress-card,
+  .feedback-card {
+    width: 100%;
+    flex: none;
+  }
+
+  .strength-buttons {
+    flex-direction: column;
+  }
+
+  .edit-modal {
+    width: calc(100% - 24px);
+    max-width: 420px;
+    padding: 24px 18px;
+    margin: 12px;
+  }
+
+  .footer {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+    padding: 16px;
+  }
+
+  .mission-box {
+    flex-direction: column;
+    text-align: center;
+    margin: 16px 8px;
+    padding: 20px;
+    gap: 16px;
+  }
+
+  .team-section,
+  .bottom-section,
+  .contact-section {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    margin: 16px 8px;
+  }
+
+  .team-card,
+  .info-card,
+  .contact-card {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .upload-page {
+    padding: 16px 8px;
+    min-height: auto;
+  }
+
+  .upload-container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }
+
+  .upload-card {
+    width: 100%;
+  }
+
+  .insights-page {
+    padding: 12px 8px;
+  }
+
+  .insights-container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }
+
+  .insight-card {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .summary-cards {
+    grid-template-columns: 1fr !important;
+  }
+
+  .admin-topbar {
+    padding: 0 16px 0 56px;
+    height: auto;
+    min-height: 64px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .admin-content {
+    padding: 16px 12px;
+  }
+
+  .cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-input,
+  .contact-input,
+  .contact-textarea,
+  .upload-textarea {
+    font-size: 16px; /* avoids iOS zoom on focus */
+  }
+
+  .login-btn,
+  .send-btn,
+  .upload-btn,
+  .analyze-btn,
+  .teach-btn {
+    min-height: 44px;
+  }
+
+  .preview-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .preview-actions button {
+    width: 100%;
+  }
+}

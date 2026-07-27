@@ -421,13 +421,14 @@ const AdminUsers = () => {
       </div>
 
       {/* TABLE */}
-      <DataTable
-  data={filteredUsers}
-  columns={columns}
-  pagination
-  customStyles={customStyles}
-/>
-
+      <div className="admin-table-wrap">
+        <DataTable
+          data={filteredUsers}
+          columns={columns}
+          pagination
+          customStyles={customStyles}
+        />
+      </div>
       {/* MODAL */}
       {showModal && (
         <div className="edit-overlay">

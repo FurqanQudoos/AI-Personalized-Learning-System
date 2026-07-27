@@ -403,3 +403,42 @@
 
   background: #ef4444;
 }
+
+@media (max-width: 768px) {
+  .tabs {
+    flex-wrap: wrap;
+  }
+
+  .edit-modal {
+    width: calc(100% - 24px);
+    max-width: 420px;
+  }
+
+  .contact-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .filter-select {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .add-btn {
+    width: 100%;
+  }
+
+  /* Make admin tables scroll horizontally on small screens */
+  .rdt_Table,
+  .rdt_TableWrapper,
+  [class*="rdt_"] {
+    max-width: 100%;
+  }
+
+  .admin-table-wrap,
+  .rdt_TableWrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
