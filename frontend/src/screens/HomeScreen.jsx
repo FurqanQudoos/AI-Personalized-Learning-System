@@ -1,17 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import "../App.css";
 import { API_URL } from "../config";
 
 const HomeScreen = () => {
-  const [learningProgress] = useState([
-    { time: 0, value: 0 },
-    { time: 48, value: 10 },
-    { time: 90, value: 15 },
-    { time: 196, value: 20 },
-    { time: 1505, value: 25 },
-    { time: 1550, value: 25 },
-    { time: 2006, value: 30 },
-  ]);
+  const navigate = useNavigate();
 
   const [user, setUser] = useState(null);
   const [showEdit, setShowEdit] = useState(false);
@@ -21,16 +14,66 @@ const HomeScreen = () => {
   const [preview, setPreview] = useState(null);
   const [image, setImage] = useState(null);
 
-  /* 🔹 Get logged-in user */
+  const [insightsLoading, setInsightsLoading] = useState(true);
+  const [performance, setPerformance] = useState(null);
+  const [progressHistory, setProgressHistory] = useState([]);
+
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("userInfo"));
     if (storedUser) {
       setUser(storedUser);
-      setEditName(storedUser.name); // IMPORTANT
+      setEditName(storedUser.name);
     }
   }, []);
 
-  /* ================= IMAGE CHANGE ================= */
+  useEffect(() => {
+    const fetchInsights = async () => {
+      try {
+        const storedUser = JSON.parse(localStorage.getItem("userInfo"));
+        if (!storedUser?.token) return;
+
+        const res = await fetch(`${API_URL}/api/insights`, {
+          headers: {
+            Authorization: `Bearer ${storedUser.token}`,
+          },
+        });
+
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || "Failed to load insights");
+
+        setPerformance(data.performance || null);
+        setProgressHistory(data.progressHistory || []);
+      } catch (err) {
+        console.error(err);
+        setPerformance(null);
+        setProgressHistory([]);
+      } finally {
+        setInsightsLoading(false);
+      }
+    };
+
+    fetchInsights();
+  }, []);
+
+  const chartPoints = useMemo(() => {
+    if (!progressHistory.length) return [];
+
+    const maxX = Math.max(progressHistory.length - 1, 1);
+
+    return progressHistory.map((item, index) => ({
+      x: (index / maxX) * 100,
+      y: 100 - Math.min(100, Math.max(0, item.percentage)),
+      percentage: item.percentage,
+      label: item.label || `Quiz ${index + 1}`,
+    }));
+  }, [progressHistory]);
+
+  const polylinePoints = chartPoints
+    .map((p) => `${p.x},${p.y}`)
+    .join(" ");
+
+  const activeLevel = (performance?.level || "").toLowerCase();
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -39,7 +82,6 @@ const HomeScreen = () => {
     setPreview(URL.createObjectURL(file));
   };
 
-  /* ================= UPDATE PROFILE ================= */
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
 
@@ -51,16 +93,13 @@ const HomeScreen = () => {
       if (newPassword) formData.append("newPassword", newPassword);
       if (image) formData.append("profileImage", image);
 
-      const res = await fetch(
-        `${API_URL}/api/users/update-profile`,
-        {
-          method: "PUT",
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-          body: formData,
-        }
-      );
+      const res = await fetch(`${API_URL}/api/users/update-profile`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+        body: formData,
+      });
 
       const data = await res.json();
       if (!res.ok) throw new Error(data.message);
@@ -83,8 +122,6 @@ const HomeScreen = () => {
   return (
     <div className="dashboard-container">
       <div className="user-main-content">
-
-        {/* LEFT */}
         <div className="profile-card">
           <img
             src={
@@ -104,53 +141,110 @@ const HomeScreen = () => {
           </button>
         </div>
 
-        {/* MIDDLE */}
         <div className="progress-card">
           <h3>Welcome Back, {user?.name || "User"}!</h3>
 
           <div className="strength-buttons">
-            <button className="strong">Strong</button>
-            <button className="average">Average</button>
-            <button className="weak">Weak</button>
+            <button
+              type="button"
+              className={`strong ${activeLevel.includes("excellent") || activeLevel.includes("good") || activeLevel.includes("strong") ? "is-active" : ""}`}
+            >
+              Strong
+            </button>
+            <button
+              type="button"
+              className={`average ${activeLevel.includes("average") ? "is-active" : ""}`}
+            >
+              Average
+            </button>
+            <button
+              type="button"
+              className={`weak ${activeLevel.includes("needs") || activeLevel.includes("weak") || activeLevel.includes("no data") ? "is-active" : ""}`}
+            >
+              Weak
+            </button>
           </div>
 
           <div className="learning-progress">
-            <h4>Learning Progress</h4>
+            <div className="learning-progress-header">
+              <h4>Learning Progress</h4>
+              {performance && (
+                <span className="progress-meta">
+                  {performance.totalQuizzes || 0} quizzes · Avg{" "}
+                  {performance.percentage || 0}%
+                </span>
+              )}
+            </div>
 
-            <svg width="100%" height="150">
-              {learningProgress.map((point, index) => {
-                if (index === 0) return null;
-                const prev = learningProgress[index - 1];
+            {insightsLoading ? (
+              <p className="progress-empty">Loading progress...</p>
+            ) : chartPoints.length === 0 ? (
+              <div className="progress-empty">
+                <p>No quiz history yet.</p>
+                <button
+                  type="button"
+                  className="upload-btn"
+                  onClick={() => navigate("/upload")}
+                >
+                  Start Learning
+                </button>
+              </div>
+            ) : (
+              <div className="progress-chart-wrap">
+                <svg
+                  className="progress-chart"
+                  viewBox="0 0 100 100"
+                  preserveAspectRatio="none"
+                  role="img"
+                  aria-label="Learning progress chart based on quiz scores"
+                >
+                  <line x1="0" y1="25" x2="100" y2="25" className="chart-grid" />
+                  <line x1="0" y1="50" x2="100" y2="50" className="chart-grid" />
+                  <line x1="0" y1="75" x2="100" y2="75" className="chart-grid" />
 
-                return (
-                  <line
-                    key={index}
-                    x1={(prev.time / 2006) * 100 + "%"}
-                    y1={150 - prev.value * 5}
-                    x2={(point.time / 2006) * 100 + "%"}
-                    y2={150 - point.value * 5}
-                    stroke="#4e9cff"
-                    strokeWidth="2"
-                  />
-                );
-              })}
-            </svg>
+                  {chartPoints.length > 1 && (
+                    <polyline
+                      points={polylinePoints}
+                      fill="none"
+                      stroke="#4e9cff"
+                      strokeWidth="2"
+                      vectorEffect="non-scaling-stroke"
+                    />
+                  )}
+
+                  {chartPoints.map((point, index) => (
+                    <circle
+                      key={index}
+                      cx={point.x}
+                      cy={point.y}
+                      r="2.2"
+                      fill="#2563eb"
+                      vectorEffect="non-scaling-stroke"
+                    >
+                      <title>
+                        {point.label}: {point.percentage}%
+                      </title>
+                    </circle>
+                  ))}
+                </svg>
+
+                <div className="progress-chart-labels">
+                  {progressHistory.map((item, index) => (
+                    <span key={index}>
+                      Q{item.quiz}
+                      <small>{item.percentage}%</small>
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
-        </div>
-
-        {/* RIGHT */}
-        <div className="feedback-card">
-          <h4>Recent Feedback</h4>
-          <p>Learning feedback will appear here...</p>
-          <button className="upload-btn">Upload New Progress</button>
         </div>
       </div>
 
-      {/* ================= EDIT MODAL ================= */}
       {showEdit && (
         <div className="edit-overlay">
           <div className="edit-modal">
-
             <div className="edit-avatar">
               <img
                 src={

@@ -30,7 +30,9 @@ exports.getInsights = async (req, res) => {
                     "Complete your first quiz to generate insights."
                 ],
 
-                aiInsights: "No learning history available."
+                aiInsights: "No learning history available.",
+
+                progressHistory: []
 
             });
 
@@ -217,6 +219,25 @@ exports.getInsights = async (req, res) => {
         }
 
         // =====================================
+        // PROGRESS HISTORY (for dashboard chart)
+        // =====================================
+
+        const progressHistory = results.map((result, index) => {
+            const totalQ = result.totalQuestions || 1;
+            const percent = Math.round((result.score / totalQ) * 100);
+
+            return {
+                quiz: index + 1,
+                label: `Quiz ${index + 1}`,
+                score: result.score,
+                totalQuestions: totalQ,
+                percentage: Math.min(100, Math.max(0, percent)),
+                topic: result.topic || "",
+                date: result.createdAt,
+            };
+        });
+
+        // =====================================
         // FINAL RESPONSE
         // =====================================
 
@@ -248,7 +269,9 @@ exports.getInsights = async (req, res) => {
 
             recommendations,
 
-            aiInsights
+            aiInsights,
+
+            progressHistory
 
         });
 
