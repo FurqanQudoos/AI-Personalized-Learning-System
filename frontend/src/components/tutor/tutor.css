@@ -406,3 +406,40 @@ opacity:.4;
     }
 
 }
+
+@media (max-width: 768px) {
+  .tutor-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 18px;
+  }
+
+  .quiz-btn {
+    width: 100%;
+  }
+
+  .tutor-start {
+    padding: 28px 16px;
+  }
+
+  .chat-message,
+  .message {
+    max-width: 92%;
+  }
+
+  .chat-input-area {
+    flex-direction: column;
+    padding: 14px;
+    gap: 10px;
+  }
+
+  .chat-input-area input {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  .chat-input-area button {
+    width: 100%;
+  }
+}

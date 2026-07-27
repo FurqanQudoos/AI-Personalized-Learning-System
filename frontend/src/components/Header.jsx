@@ -1,14 +1,14 @@
+import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import logo from "../assets/logo.png";
 import "./header.css";
 
 const Header = ({ userInfo, onLogout }) => {
   const navigate = useNavigate();
-  const location = useLocation(); // active route detect
+  const location = useLocation();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const logoutHandler = () => {
-
-    // AI session data clear
     localStorage.removeItem("analysis");
     localStorage.removeItem("quizQuestions");
     localStorage.removeItem("quizAnswers");
@@ -17,66 +17,89 @@ const Header = ({ userInfo, onLogout }) => {
     localStorage.removeItem("chatHistory");
     localStorage.removeItem("selectedTopic");
 
+    setMenuOpen(false);
     onLogout();
-
     navigate("/login");
   };
 
   const isActive = (path) => location.pathname === path;
 
+  const goTo = (path) => {
+    setMenuOpen(false);
+    navigate(path);
+  };
+
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [location.pathname]);
+
+  useEffect(() => {
+    const onResize = () => {
+      if (window.innerWidth > 768) setMenuOpen(false);
+    };
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
   return (
-    <nav className="navbar">
-      {/* LOGO */}
-      <div className="logo" onClick={() => navigate("/")}>
+    <nav className={`navbar ${menuOpen ? "menu-open" : ""}`}>
+      <div className="logo" onClick={() => goTo("/")}>
         <img src={logo} alt="AI Learning Companion" />
       </div>
 
-      <ul className="nav-links">
+      <button
+        type="button"
+        className="nav-toggle"
+        aria-label="Toggle navigation menu"
+        aria-expanded={menuOpen}
+        onClick={() => setMenuOpen((open) => !open)}
+      >
+        <span />
+        <span />
+        <span />
+      </button>
+
+      <ul className={`nav-links ${menuOpen ? "open" : ""}`}>
         {userInfo ? (
           <>
             <li
               className={isActive("/") ? "active" : ""}
-              onClick={() => navigate("/")}
+              onClick={() => goTo("/")}
             >
               Dashboard
             </li>
-
             <li
               className={isActive("/upload") ? "active" : ""}
-              onClick={() => navigate("/upload")}
+              onClick={() => goTo("/upload")}
             >
               Upload
             </li>
-
             <li
               className={isActive("/insights") ? "active" : ""}
-              onClick={() => navigate("/insights")}
+              onClick={() => goTo("/insights")}
             >
               Insights
             </li>
-
             <li
               className={isActive("/about") ? "active" : ""}
-              onClick={() => navigate("/about")}
+              onClick={() => goTo("/about")}
             >
               About
             </li>
-
             <li
               className={isActive("/contact") ? "active" : ""}
-              onClick={() => navigate("/contact")}
+              onClick={() => goTo("/contact")}
             >
               Contact
             </li>
-
             <li className="logout" onClick={logoutHandler}>
               Logout
             </li>
           </>
         ) : (
           <>
-            <li onClick={() => navigate("/login")}>Login</li>
-            <li onClick={() => navigate("/register")}>Register</li>
+            <li onClick={() => goTo("/login")}>Login</li>
+            <li onClick={() => goTo("/register")}>Register</li>
           </>
         )}
       </ul>

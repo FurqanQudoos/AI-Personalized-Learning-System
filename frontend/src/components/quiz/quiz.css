@@ -588,3 +588,40 @@
     color:white;
 
 }
+
+@media (max-width: 768px) {
+  .quiz-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 18px;
+  }
+
+  .progress-section,
+  .question-box {
+    padding: 16px;
+  }
+
+  .result-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .quiz-actions,
+  .result-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .quiz-actions button,
+  .result-actions button,
+  .previous-btn,
+  .next-btn,
+  .submit-btn {
+    width: 100%;
+  }
+
+  .option-item {
+    align-items: flex-start;
+  }
+}

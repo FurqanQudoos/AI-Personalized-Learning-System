@@ -134,7 +134,7 @@ function App() {
 
       {/* USER ROUTES */}
       {!isAdminRoute && (
-        <main className="user-main-content">
+        <main className="app-main">
           <Routes>
 
             {/* AUTH */}

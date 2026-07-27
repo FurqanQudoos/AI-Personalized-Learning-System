@@ -417,3 +417,37 @@ AI RECOMMENDATION
     box-shadow:none;
 
 }
+
+@media (max-width: 768px) {
+  .weak-topics-card,
+  .recommendation-card {
+    padding: 18px;
+    margin-top: 18px;
+  }
+
+  .topics-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .drop-zone {
+    min-height: 220px;
+    padding: 16px;
+  }
+
+  .preview-thumb {
+    width: min(220px, 70vw);
+    height: min(220px, 70vw);
+  }
+
+  .preview-actions {
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .analyze-btn,
+  .teach-btn {
+    font-size: 16px;
+    padding: 14px 16px;
+  }
+}
