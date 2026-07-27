@@ -5,6 +5,8 @@ from pydantic import BaseModel
 from dotenv import load_dotenv
 import shutil
 import os
+import time
+import uuid
 
 load_dotenv()
 
@@ -96,15 +98,33 @@ async def analyze_exam(file: UploadFile = File(...)):
     file_path = None
 
     try:
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        upload_dir = os.path.join(base_dir, "uploads")
+        os.makedirs(upload_dir, mode=0o775, exist_ok=True)
 
-        os.makedirs("uploads", exist_ok=True)
+        try:
+            os.chmod(upload_dir, 0o775)
+        except OSError:
+            pass
 
-        file_path = f"uploads/{file.filename}"
+        safe_name = os.path.basename(file.filename or "exam.jpg")
+        file_path = os.path.join(
+            upload_dir,
+            f"{int(time.time() * 1000)}_{uuid.uuid4().hex[:8]}_{safe_name}"
+        )
 
         with open(file_path, "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
 
-        print("✅ Image Uploaded")
+        try:
+            os.chmod(file_path, 0o664)
+        except OSError:
+            pass
+
+        if not os.path.exists(file_path) or os.path.getsize(file_path) == 0:
+            raise FileNotFoundError("Uploaded image was not saved correctly.")
+
+        print(f"✅ Image Uploaded: {file_path}")
 
         result = process_exam_image(file_path)
 

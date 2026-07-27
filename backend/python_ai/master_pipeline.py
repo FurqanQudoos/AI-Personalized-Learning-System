@@ -42,8 +42,12 @@ warnings.filterwarnings("ignore", category=UserWarning)
 # CONFIG
 # ==========================================
 GROQ_MODEL = "openai/gpt-oss-120b"   # llama-3.3-70b-versatile deprecated by Groq (17 June 2026)
-UPLOAD_DIR = "./uploaded_exams"
-os.makedirs(UPLOAD_DIR, exist_ok=True)
+UPLOAD_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "uploaded_exams")
+os.makedirs(UPLOAD_DIR, mode=0o775, exist_ok=True)
+try:
+    os.chmod(UPLOAD_DIR, 0o775)
+except OSError:
+    pass
 
 # ==========================================
 # PHASE 1: GLOBAL INITIALIZATIONS (runs once at server startup)
@@ -98,6 +102,14 @@ def extract_json(raw_output, expect="object"):
 
 def run_vision_pipeline(image_path):
     print(f"\n--- 🔍 SCANNING IMAGE WITH YOLO: {image_path} ---")
+
+    if not image_path or not os.path.exists(image_path):
+        print(f"❌ ERROR: Image file does not exist at '{image_path}'.")
+        return []
+
+    if os.path.getsize(image_path) == 0:
+        print(f"❌ ERROR: Image file is empty at '{image_path}'.")
+        return []
 
     img = cv2.imread(image_path)
     if img is None:
@@ -490,6 +502,12 @@ def generate_mock_quiz(topic, failed_concepts_context=""):
 
 def process_exam_image(image_path):
     """Runs the full OCR -> grading -> confidence -> weakness pipeline on one image."""
+    if not image_path or not os.path.exists(image_path):
+        return {
+            "success": False,
+            "error": f"Uploaded image not found at '{image_path}'.",
+        }
+
     raw_mcqs = run_vision_pipeline(image_path)
     if not raw_mcqs:
         return {"success": False, "error": "No text found in image."}
