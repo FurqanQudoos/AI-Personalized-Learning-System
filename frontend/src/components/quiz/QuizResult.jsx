@@ -53,12 +53,6 @@ const QuizResult = ({
 
             <div className="result-header">
 
-                <div className="result-icon">
-
-                    🎉
-
-                </div>
-
                 <h2>Quiz Completed</h2>
 
                 <p>
