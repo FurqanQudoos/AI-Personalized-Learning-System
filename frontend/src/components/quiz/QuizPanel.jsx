@@ -2,6 +2,7 @@ import React, {
     useEffect,
     useState
 } from "react";
+import { API_URL } from "../../config";
 import QuizResult from "./QuizResult";
 import "./quiz.css";
 
@@ -75,7 +76,7 @@ const QuizPanel = ({
             const token = userInfo?.token;
 
             const res = await axios.post(
-                "http://localhost:5000/api/ai/quiz",
+                `${API_URL}/api/ai/quiz`,
                 {
                     weak_topics: analysis.weak_topics
                 },
@@ -243,7 +244,7 @@ const QuizPanel = ({
                 return answers[index] || "";
             });
             const res = await axios.post(
-                "http://localhost:5000/api/ai/submit-quiz",
+                `${API_URL}/api/ai/submit-quiz`,
                 {
                     quiz_id: savedQuizId,
                     answers: answersArray

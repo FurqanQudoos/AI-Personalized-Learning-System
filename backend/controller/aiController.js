@@ -4,7 +4,7 @@ const fs = require("fs");
 const QuizResult = require("../models/QuizResult");
 const Quiz = require("../models/Quiz");
 
-const PYTHON_API = "http://127.0.0.1:8000";
+const PYTHON_API = process.env.PYTHON_API_URL || "http://127.0.0.1:8000";
 
 // ==========================================
 // ANALYZE PAPER

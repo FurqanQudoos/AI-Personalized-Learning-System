@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import "./admin.css";
 import "../../src/App.css";
+import { API_URL } from "../config";
 
 const AdminUsers = () => {
   const [users, setUsers] = useState([]);
@@ -25,7 +26,7 @@ const AdminUsers = () => {
     try {
       const adminInfo = JSON.parse(localStorage.getItem("adminInfo"));
 
-      const res = await fetch("http://localhost:5000/api/admin/users", {
+      const res = await fetch(`${API_URL}/api/admin/users`, {
         headers: {
           Authorization: `Bearer ${adminInfo.token}`,
         },
@@ -109,7 +110,7 @@ const AdminUsers = () => {
     try {
       const adminInfo = JSON.parse(localStorage.getItem("adminInfo"));
 
-      const res = await fetch("http://localhost:5000/api/admin/users", {
+      const res = await fetch(`${API_URL}/api/admin/users`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -135,7 +136,7 @@ const AdminUsers = () => {
       const adminInfo = JSON.parse(localStorage.getItem("adminInfo"));
 
       const res = await fetch(
-        `http://localhost:5000/api/admin/users/${editId}`,
+        `${API_URL}/api/admin/users/${editId}`,
         {
           method: "PUT",
           headers: {
@@ -177,7 +178,7 @@ const AdminUsers = () => {
     );
 
     const res = await fetch(
-      `http://localhost:5000/api/admin/users/${id}`,
+      `${API_URL}/api/admin/users/${id}`,
       {
         method: "DELETE",
 
@@ -206,7 +207,7 @@ const AdminUsers = () => {
       const adminInfo = JSON.parse(localStorage.getItem("adminInfo"));
 
       const res = await fetch(
-        `http://localhost:5000/api/admin/users/status/${id}`,
+        `${API_URL}/api/admin/users/status/${id}`,
         {
           method: "PUT",
           headers: {

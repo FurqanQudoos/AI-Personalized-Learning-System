@@ -20,7 +20,7 @@ const app = express();
 // Enable CORS for frontend
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: process.env.FRONTEND_URL || "http://localhost:5173",
     credentials: true,
   })
 );
@@ -84,7 +84,8 @@ app.use((err, req, res, next) => {
    SERVER START
 ========================= */
 const PORT = process.env.PORT || 5000;
+const BACKEND_URL = process.env.BACKEND_URL || `http://localhost:${PORT}`;
 
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Server running on ${BACKEND_URL}`);
 });

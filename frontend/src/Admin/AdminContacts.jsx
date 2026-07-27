@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "./admin.css";
+import { API_URL } from "../config";
 
 const AdminContacts = () => {
   const [contacts, setContacts] = useState([]);
@@ -10,7 +11,7 @@ const AdminContacts = () => {
       const adminInfo = JSON.parse(localStorage.getItem("adminInfo"));
 
       const res = await fetch(
-        "http://localhost:5000/api/admin/contacts",
+        `${API_URL}/api/admin/contacts`,
         {
           headers: {
             Authorization: `Bearer ${adminInfo.token}`,
@@ -37,7 +38,7 @@ const AdminContacts = () => {
       const adminInfo = JSON.parse(localStorage.getItem("adminInfo"));
 
       await fetch(
-        `http://localhost:5000/api/admin/contacts/${id}`,
+        `${API_URL}/api/admin/contacts/${id}`,
         {
           method: "DELETE",
           headers: {
