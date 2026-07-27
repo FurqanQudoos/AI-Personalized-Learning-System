@@ -1,6 +1,7 @@
 const axios = require("axios");
 const FormData = require("form-data");
 const fs = require("fs");
+const path = require("path");
 const QuizResult = require("../models/QuizResult");
 const Quiz = require("../models/Quiz");
 
@@ -20,14 +21,32 @@ exports.analyzePaper = async (req, res) => {
             });
         }
 
+        const filePath = path.resolve(req.file.path);
+
+        if (!fs.existsSync(filePath)) {
+            return res.status(400).json({
+                success: false,
+                error: "Uploaded image not found on server. Check uploads directory permissions.",
+            });
+        }
+
+        try {
+            fs.chmodSync(filePath, 0o664);
+        } catch (_) {}
+
         const formData = new FormData();
-        formData.append("file", fs.createReadStream(req.file.path));
+        formData.append("file", fs.createReadStream(filePath), {
+            filename: req.file.originalname || path.basename(filePath),
+            contentType: req.file.mimetype || "application/octet-stream",
+        });
 
         const response = await axios.post(
             `${PYTHON_API}/analyze`,
             formData,
             {
                 headers: formData.getHeaders(),
+                maxBodyLength: Infinity,
+                maxContentLength: Infinity,
                 timeout: 300000,
             }
         );
@@ -48,7 +67,7 @@ exports.analyzePaper = async (req, res) => {
 
     } finally {
 
-        if (req.file && fs.existsSync(req.file.path)) {
+        if (req.file?.path && fs.existsSync(req.file.path)) {
             fs.unlink(req.file.path, () => { });
         }
 

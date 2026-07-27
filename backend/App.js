@@ -4,6 +4,13 @@ const cors = require("cors");
 const connectDB = require("./config/db");
 const passport = require("./config/passport");
 const session = require("express-session");
+const {
+  ensureUploadDirs,
+  UPLOADS_ROOT,
+} = require("./utils/ensureUploadDirs");
+
+// Ensure upload folders exist before handling requests
+ensureUploadDirs();
 
 // Routes
 const userRoutes = require("./routes/userRoutes");
@@ -28,7 +35,7 @@ app.use(
 // Parse incoming JSON
 app.use(express.json());
 
-app.use("/uploads", express.static("uploads"));
+app.use("/uploads", express.static(UPLOADS_ROOT));
 
 app.use(
   session({
