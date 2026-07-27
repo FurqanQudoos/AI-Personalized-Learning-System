@@ -83,46 +83,40 @@ const UploadScreen = () => {
 
       {
 
-        analysis &&
+        analysis && !learningMode && !quizMode && (
+          <>
 
         <SummaryCards
           analysis={analysis}
         />
 
-      }
-
-      {
-
-        analysis &&
-
         <WeakTopics
           analysis={analysis}
         />
-
-      }
-
-      {
-
-        analysis &&
 
         <Recommendation
           onStartTeaching={() => {
 
             setLearningMode(true);
+            setQuizMode(false); // close quiz if open
+
 
             sessionStorage.setItem(
               "learningMode",
               "true"
             );
+            sessionStorage.setItem("quizMode", "false");
+            window.scrollTo(0, 0);
 
           }}
         />
+        </>
 
-      }
+      )}
 
       {
 
-        learningMode &&
+        learningMode && !quizMode && (
 
         <TutorPanel
 
@@ -130,18 +124,20 @@ const UploadScreen = () => {
 
           onStartQuiz={() => {
 
-    setQuizMode(true);
+          setQuizMode(true);
 
-    sessionStorage.setItem(
-        "quizMode",
-        "true"
-    );
+          sessionStorage.setItem(
+              "quizMode",
+              "true"
+          );
 
-}}
+          window.scrollTo(0, 0);
+
+          }}
 
         />
 
-      }
+      )}
 
       {
 
