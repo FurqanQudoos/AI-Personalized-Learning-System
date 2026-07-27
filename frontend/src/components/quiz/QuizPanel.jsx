@@ -1,5 +1,6 @@
 import React, {
     useEffect,
+    useRef,
     useState
 } from "react";
 import { API_URL } from "../../config";
@@ -7,9 +8,9 @@ import QuizResult from "./QuizResult";
 import "./quiz.css";
 
 import axios from "axios";
+import { clearQuizSession } from "./quizSession";
 
 const QuizPanel = ({
-
     analysis,
 
     onQuizCompleted
@@ -37,6 +38,7 @@ const QuizPanel = ({
 
     const [timeLeft, setTimeLeft] = useState(900);
     const [quizId, setQuizId] = useState("");
+    const quizLoadStarted = useRef(false);
 
     // const questionData = analysis?.report || [];
     const weakTopics = Object.keys(
@@ -59,19 +61,14 @@ const QuizPanel = ({
     // ];
     const loadQuiz = async () => {
 
-        // Prevent duplicate requests
-        if (sessionStorage.getItem("quizQuestions")) {
+        if (!weakTopics.length || quizLoadStarted.current) {
             return;
         }
 
-        if (!weakTopics.length) {
-            return;
-        }
-
+        quizLoadStarted.current = true;
         setLoading(true);
 
         try {
-
             const userInfo = JSON.parse(localStorage.getItem("userInfo"));
             const token = userInfo?.token;
 
@@ -113,6 +110,7 @@ const QuizPanel = ({
         } catch (err) {
 
             console.log(err);
+            quizLoadStarted.current = false;
 
         } finally {
 
@@ -126,22 +124,14 @@ const QuizPanel = ({
         const savedQuestions = sessionStorage.getItem("quizQuestions");
         const savedQuizId = sessionStorage.getItem("quizId");
 
-        if (savedQuestions) {
+        if (savedQuestions && savedQuizId) {
             setQuestions(JSON.parse(savedQuestions));
-        }
-
-        if (savedQuizId) {
             setQuizId(savedQuizId);
+            return;
         }
 
-    }, []);
-
-    useEffect(() => {
-
-        if (analysis && questions.length === 0) {
-
+        if (analysis && weakTopics.length) {
             loadQuiz();
-
         }
 
     }, [analysis]);
@@ -149,7 +139,6 @@ const QuizPanel = ({
     useEffect(() => {
 
         if (submitted) return;
-
         if (timeLeft <= 0) {
 
             submitQuiz();
@@ -225,7 +214,7 @@ const QuizPanel = ({
 
     const submitQuiz = async () => {
 
-        if (submitted) return;
+        if (submitted || loading) return;
 
         setLoading(true);
 
@@ -235,6 +224,10 @@ const QuizPanel = ({
             const token = userInfo?.token;
 
             const savedQuizId = sessionStorage.getItem("quizId");
+
+            if (!savedQuizId) {
+                throw new Error("Quiz session expired. Please generate a new quiz.");
+            }
 
             const savedQuestions = JSON.parse(
                 sessionStorage.getItem("quizQuestions") || "[]"
@@ -256,8 +249,15 @@ const QuizPanel = ({
                 }
             );
 
+            if (!res.data?.success) {
+                throw new Error(res.data?.error || "Quiz submission failed.");
+            }
+
             setResult(res.data);
             setSubmitted(true);
+
+            // Quiz is deleted on the server after submit — clear stale session
+            clearQuizSession();
 
             if (onQuizCompleted) {
 
@@ -270,7 +270,9 @@ const QuizPanel = ({
         catch (err) {
 
             alert(
+                err.response?.data?.error ||
                 err.response?.data?.message ||
+                err.message ||
                 "Quiz submission failed."
             );
 
